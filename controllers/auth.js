@@ -3,6 +3,7 @@ import User from "../models/User.js";
 // Register User
 export const register = async (req, res) => {
     try {
+
         const { username, email, password } = req.body;
         
         const isUsed = await User.findOne({ username });
@@ -21,8 +22,10 @@ export const register = async (req, res) => {
         res.json({ message: "User created successfully" });
 
     } catch (error) {
+
         console.log(error);
         res.json({ message: "Something went wrong" });
+
     }   
 };
 
@@ -30,16 +33,24 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         
+        const { username, password } = req.body;
+
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.json({ message: "User not found" });
+        }
+
+        if (user.password !== password) {
+            return res.json({ message: "Invalid password" });
+        }
+
+        res.json({ message: "Login successful" });
+
     } catch (error) {
+
         res.json({ message: "Login failed" });
+
     }  
 };
 
-// Get User
-export const getUser = async (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }  
-};
