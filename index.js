@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import authRoute from "./routes/auth.js";
+
 const app = express();
 dotenv.config();
 
@@ -13,6 +15,9 @@ const DB_URL = process.env.DB_URL;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Routes
+app.use("/api/auth", authRoute);
 
 async function startServer() {
     try {
