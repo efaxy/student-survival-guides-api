@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import dotenv from "dotenv";
 
 const app = express();
@@ -8,6 +9,10 @@ dotenv.config();
 // Constants
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 async function startServer() {
     try {
