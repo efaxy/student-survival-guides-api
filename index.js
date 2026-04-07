@@ -10,7 +10,7 @@ dotenv.config();
 
 // Constants
 const PORT = process.env.PORT;
-const DB_URL = process.env.DB_URL;
+const DB_URL = process.env.MONGODB_URL;
 
 // Middleware
 app.use(cors());

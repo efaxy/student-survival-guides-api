@@ -1,6 +1,45 @@
+import User from "../models/User.js";
 
 // Register User
+export const register = async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+        
+        const isUsed = await User.findOne({ username });
+
+        if (isUsed) {
+            return res.json({ message: "User already exists" });
+        }
+        
+        const newUser = new User({
+            username,
+            email,
+            password,
+        });
+
+        await newUser.save();
+        res.json({ message: "User created successfully" });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ message: "Something went wrong" });
+    }   
+};
 
 // Login User
+export const login = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        res.json({ message: "Login failed" });
+    }  
+};
 
 // Get User
+export const getUser = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }  
+};
