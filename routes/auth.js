@@ -9,4 +9,7 @@ router.post("/register", register);
 // Login
 router.post("/login", login);
 
+// Get Me
+router.get('/me', getMe)
+
 export default router;
