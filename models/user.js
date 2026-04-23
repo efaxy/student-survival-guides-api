@@ -15,12 +15,7 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Post",
         }
-    ],
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    }
+    ]
 },
     { timestamps: true }
 );
