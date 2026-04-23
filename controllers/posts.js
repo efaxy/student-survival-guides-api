@@ -2,7 +2,6 @@ import Post from "../models/Post";
 import User from "../models/User";
 
 // Create Post
-
 export const createPost = async (req, res) => {
     try {
         const {title, text} = req.body
@@ -28,7 +27,6 @@ export const createPost = async (req, res) => {
 }
 
 // Get All Posts
-
 export const getAll = async (req, res) => {
     try {
         const posts = await Post.find().sort('-createdAt')
@@ -37,6 +35,18 @@ export const getAll = async (req, res) => {
             return res.json({message: 'No posts here'})
         }
         res.json({posts, popularPosts})
+    } catch (error) {
+        res.json({message: 'Something is wrong'})
+    }
+}
+
+// Get Post By Id
+export const getById = async (req, res) => {
+    try {
+        const post = await Post.findOneAndUpdate(req.params.id, {
+            $inc: {views: 1}
+        })
+        res.json(post)
     } catch (error) {
         res.json({message: 'Something is wrong'})
     }

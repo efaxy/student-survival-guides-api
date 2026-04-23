@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAll } from "../controllers/posts";
+import { createPost, getAll, getById } from "../controllers/posts";
 
 const router = Router();
 
@@ -8,5 +8,8 @@ router.post("/", createPost);
 
 // Get All Posts
 router.get('/', getAll)
+
+// Get Post By Id
+router.get('/:id', getById)
 
 export default router;
