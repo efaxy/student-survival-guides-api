@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import authRoute from "./routes/auth";
 import postRoute from "./routes/posts";
+import commentRoute from "./routes/comments";
 
 const app = express();
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/comments", commentRoute);
 
 async function startServer() {
     try {
