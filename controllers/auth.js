@@ -4,7 +4,7 @@ import User from "../models/User";
 export const register = async (req, res) => {
     try {
 
-        const { username, email, password } = req.body;
+        const { username, password } = req.body;
 
         const isUsed = await User.findOne({ username });
 
@@ -14,18 +14,18 @@ export const register = async (req, res) => {
 
         const newUser = new User({
             username,
-            email,
             password,
         });
 
         await newUser.save();
-        res.status(201).json({ message: "User created successfully" });
+        res.status(201).json({
+            user: newUser,
+            message: "User created successfully"
+        });
 
     } catch (error) {
-
-        console.log(error);
-        res.status(500).json({ message: "Something went wrong" });
-
+        console.error(error);
+        res.status(500).json({ message: "Ошибка базы данных (SSG): " + error.message });
     }
 };
 
@@ -45,7 +45,10 @@ export const login = async (req, res) => {
             return res.status(401).json({ message: "Invalid password" });
         }
 
-        res.json({ message: "Login successful" });
+        res.json({
+            user,
+            message: "Login successful"
+        });
 
     } catch (error) {
 
