@@ -16,9 +16,9 @@ const DB_URL = process.env.MONGODB_URL;
 
 // Middleware Setup
 app.use(cors({
-    origin: 'https://efaxy.github.io/student-survival-guides-client/',
+    origin: ['https://efaxy.github.io', 'http://localhost:3000', 'http://localhost:3001'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'userid']
 })); // Enable Cross-Origin Resource Sharing
 app.use(express.json()); // Enable JSON parsing for request bodies
 
