@@ -1,23 +1,24 @@
-import Post from "../models/Post";
-import User from "../models/User";
+import Post from "../models/Post.js";
+import User from "../models/User.js";
+import Comment from "../models/Comment.js";
 
 // Create Post
 export const createPost = async (req, res) => {
     try {
         const { title, text } = req.body
-        const user = await User.findById(req.UserId)
+        const user = await User.findById(req.headers.userid)
 
         const newPost = new Post({
             username: user.username,
             title,
             text,
-            author: req.UserId
+            author: req.headers.userid
         })
 
         await newPost.save()
-        await User.findByIdAndUpdate(req.UserId, {
+        await User.findByIdAndUpdate(req.headers.userid, {
             $push: {
-                posts: newPost
+                posts: newPost._id
             }
         })
         res.status(201).json(newPost)
@@ -58,12 +59,12 @@ export const getById = async (req, res) => {
 // Get All Posts
 export const getMyPosts = async (req, res) => {
     try {
-        const user = await User.findById(req.userId)
+        const user = await User.findById(req.headers.userid)
         if (!user) return res.status(404).json({ message: 'User not found' })
 
         const list = await Promise.all(
             user.posts.map((post) => {
-                return Post.findById(post._id)
+                return Post.findById(post)
             }),
         )
 
@@ -79,7 +80,7 @@ export const removePost = async (req, res) => {
         const post = await Post.findByIdAndDelete(req.params.id)
         if (!post) return res.status(404).json({ message: 'This post does not exist' })
 
-        await User.findByIdAndUpdate(req.userId, {
+        await User.findByIdAndUpdate(req.headers.userid, {
             $pull: { posts: req.params.id },
         })
 

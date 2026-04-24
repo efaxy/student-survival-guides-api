@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/User.js";
 
 // Register User
 export const register = async (req, res) => {
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
 // Get Me
 export const getMe = async (req, res) => {
     try {
-        const user = await User.findById(req.userId)
+        const user = await User.findById(req.headers.userid)
 
         if (!user) {
             return res.status(404).json({
