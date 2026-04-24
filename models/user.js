@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         }
     ]
 },
-    // Automatically add createdAt and updatedAt fields
+    // Automatically add createdAt and updatedAt fieldss
     { timestamps: true }
 );
 
