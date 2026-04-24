@@ -11,11 +11,15 @@ const app = express();
 dotenv.config();
 
 // Configuration Constants
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 const DB_URL = process.env.MONGODB_URL;
 
 // Middleware Setup
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(cors({
+    origin: 'https://efaxy.github.io/student-survival-guides-client/',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+})); // Enable Cross-Origin Resource Sharing
 app.use(express.json()); // Enable JSON parsing for request bodies
 
 // Route Definitions
