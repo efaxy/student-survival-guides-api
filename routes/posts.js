@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAll, getById, updatePost, getMyPosts, removePost, getPostComments } from "../controllers/posts.js";
+import { createPost, getAll, getById, updatePost, getMyPosts, removePost, getPostComments, likePost } from "../controllers/posts.js";
 
 const router = Router();
 
@@ -24,4 +24,8 @@ router.delete('/:id', removePost)
 // Get Post Comments
 router.get('/comments/:id', getPostComments)
 
+// Like Post
+router.put('/like/:id', likePost)
+
 export default router;
+

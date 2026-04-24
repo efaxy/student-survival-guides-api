@@ -5,15 +5,17 @@ import Comment from "../models/Comment.js";
 // Create Post
 export const createPost = async (req, res) => {
     try {
-        const { title, text } = req.body
+        const { title, text, category } = req.body
         const user = await User.findById(req.headers.userid)
 
         const newPost = new Post({
             username: user.username,
             title,
             text,
+            category: category || 'General',
             author: req.headers.userid
         })
+
 
         await newPost.save()
         await User.findByIdAndUpdate(req.headers.userid, {
@@ -93,13 +95,15 @@ export const removePost = async (req, res) => {
 // Update post
 export const updatePost = async (req, res) => {
     try {
-        const { title, text } = req.body
+        const { title, text, category } = req.body
         const post = await Post.findById(req.params.id)
 
         if (!post) return res.status(404).json({ message: 'Post not found' })
 
         post.title = title
         post.text = text
+        post.category = category || post.category
+
 
         await post.save()
 
@@ -125,3 +129,27 @@ export const getPostComments = async (req, res) => {
         res.status(500).json({ message: 'Something is wrong' })
     }
 }
+
+// Like post
+export const likePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        if (!post) return res.status(404).json({ message: 'Post not found' })
+
+        const userId = req.headers.userid
+        if (!userId) return res.status(401).json({ message: 'Unauthorized' })
+
+        const index = post.likes.findIndex((id) => id.toString() === userId)
+
+        if (index === -1) {
+            post.likes.push(userId)
+        } else {
+            post.likes = post.likes.filter((id) => id.toString() !== userId)
+        }
+
+        await post.save()
+        res.json(post)
+    } catch (error) {
+        res.status(500).json({ message: 'Something is wrong' })
+    }
+}
