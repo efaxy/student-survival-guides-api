@@ -9,7 +9,7 @@ export const register = async (req, res) => {
         const isUsed = await User.findOne({ username });
 
         if (isUsed) {
-            return res.json({ message: "User already exists" });
+            return res.status(400).json({ message: "User already exists" });
         }
 
         const newUser = new User({
@@ -19,12 +19,12 @@ export const register = async (req, res) => {
         });
 
         await newUser.save();
-        res.json({ message: "User created successfully" });
+        res.status(201).json({ message: "User created successfully" });
 
     } catch (error) {
 
         console.log(error);
-        res.json({ message: "Something went wrong" });
+        res.status(500).json({ message: "Something went wrong" });
 
     }
 };
@@ -38,18 +38,18 @@ export const login = async (req, res) => {
         const user = await User.findOne({ username });
 
         if (!user) {
-            return res.json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         if (user.password !== password) {
-            return res.json({ message: "Invalid password" });
+            return res.status(401).json({ message: "Invalid password" });
         }
 
         res.json({ message: "Login successful" });
 
     } catch (error) {
 
-        res.json({ message: "Login failed" });
+        res.status(500).json({ message: "Login failed" });
 
     }
 };
@@ -60,13 +60,13 @@ export const getMe = async (req, res) => {
         const user = await User.findById(req.userId)
 
         if (!user) {
-            return res.json({
+            return res.status(404).json({
                 message: 'User not found',
             })
         }
 
         res.json(user)
     } catch (error) {
-        res.json({ message: 'No access' })
+        res.status(500).json({ message: 'No access' })
     }
 }
