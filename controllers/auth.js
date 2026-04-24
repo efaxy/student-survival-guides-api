@@ -1,9 +1,13 @@
 import User from "../models/User.js";
 
-// Register User
+/**
+ * Register a new user
+ * Handles validation and creation of user accounts
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 export const register = async (req, res) => {
     try {
-
         const { username, password } = req.body;
 
         // Validation: Username must be only English letters
@@ -23,18 +27,20 @@ export const register = async (req, res) => {
             return res.status(400).json({ message: "Password must contain at least one special character" });
         }
 
+        // Check if username is already taken
         const isUsed = await User.findOne({ username });
-
         if (isUsed) {
             return res.status(400).json({ message: "User already exists" });
         }
 
+        // Create and save new user
         const newUser = new User({
             username,
             password,
         });
 
         await newUser.save();
+        
         res.status(201).json({
             user: newUser,
             message: "User created successfully"
@@ -46,18 +52,23 @@ export const register = async (req, res) => {
     }
 };
 
-// Login User
+/**
+ * Login an existing user
+ * Verifies credentials and returns user data
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 export const login = async (req, res) => {
     try {
-
         const { username, password } = req.body;
 
+        // Find user by username
         const user = await User.findOne({ username });
-
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
+        // Check if password matches (Plain text for simplicity in this project)
         if (user.password !== password) {
             return res.status(401).json({ message: "Invalid password" });
         }
@@ -68,15 +79,18 @@ export const login = async (req, res) => {
         });
 
     } catch (error) {
-
         res.status(500).json({ message: "Login failed" });
-
     }
 };
 
-// Get Me
+/**
+ * Get current user data based on userId in headers
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 export const getMe = async (req, res) => {
     try {
+        // Find user by ID provided in headers
         const user = await User.findById(req.headers.userid)
 
         if (!user) {

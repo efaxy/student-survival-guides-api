@@ -10,30 +10,36 @@ import commentRoute from "./routes/comments.js";
 const app = express();
 dotenv.config();
 
-// Constants
+// Configuration Constants
 const PORT = process.env.PORT;
 const DB_URL = process.env.MONGODB_URL;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// Middleware Setup
+app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(express.json()); // Enable JSON parsing for request bodies
 
-// Routes
-app.use("/api/auth", authRoute);
-app.use("/api/posts", postRoute);
-app.use("/api/comments", commentRoute);
+// Route Definitions
+app.use("/api/auth", authRoute);      // Authentication routes
+app.use("/api/posts", postRoute);     // Post management routes
+app.use("/api/comments", commentRoute); // Comment management routes
 
+/**
+ * Connect to MongoDB and start the Express server
+ */
 async function startServer() {
     try {
+        // Attempt to connect to the database
         await mongoose.connect(DB_URL);
         console.log("Connected to MongoDB");
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
 
+    // Start listening for requests
     app.listen(PORT, () => {
         console.log("Server is running on port: " + PORT);
     });
 }
 
+// Initialize the server
 startServer();

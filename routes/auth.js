@@ -3,13 +3,13 @@ import { register, login, getMe } from "../controllers/auth.js";
 
 const router = Router();
 
-// Register
+// Registration Route
 router.post("/register", register);
 
-// Login
+// Login Route
 router.post("/login", login);
 
-// Get Me
+// Get Current User Profile Route
 router.get('/me', getMe)
 
 export default router;

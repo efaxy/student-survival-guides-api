@@ -3,28 +3,28 @@ import { createPost, getAll, getById, updatePost, getMyPosts, removePost, getPos
 
 const router = Router();
 
-// Create Post
+// Create Post Route
 router.post("/", createPost);
 
-// Get All Posts
+// Get All Posts Route (includes popular posts)
 router.get('/', getAll)
 
-// Get Post By Id
+// Get Single Post By ID Route
 router.get('/:id', getById)
 
-// Update Post
+// Update Post Route
 router.put('/:id', updatePost)
 
-// Get My Posts
+// Get Posts by Authenticated User Route
 router.get('/user/me', getMyPosts)
 
-// Remove Post
+// Delete Post Route
 router.delete('/:id', removePost)
 
-// Get Post Comments
+// Get All Comments for a Post Route
 router.get('/comments/:id', getPostComments)
 
-// Like Post
+// Toggle Like on a Post Route
 router.put('/like/:id', likePost)
 
 export default router;
