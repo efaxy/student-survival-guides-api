@@ -5,12 +5,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: [/^[a-zA-Z]+$/, 'Username должен содержать только английские буквы']
+        match: [/^[a-zA-Z]+$/, 'Username must contain only English letters']
     },
     password: {
         type: String,
         required: true,
-        minlength: [6, 'Пароль должен быть не менее 6 символов']
+        minlength: [6, 'Password must be at least 6 characters long']
     },
     posts: [
         {

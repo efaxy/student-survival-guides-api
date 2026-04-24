@@ -42,7 +42,7 @@ export const register = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Ошибка базы данных (SSG): " + error.message });
+        res.status(500).json({ message: "Error:  " + error.message });
     }
 };
 
