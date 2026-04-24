@@ -1,10 +1,19 @@
-import { Router } from "express";
-import { createPost, getAll, getById, updatePost, getMyPosts, removePost, getPostComments, likePost } from "../controllers/posts.js";
+import { Router } from 'express'
+import {
+	createPost,
+	getAll,
+	getById,
+	updatePost,
+	getMyPosts,
+	removePost,
+	getPostComments,
+	likePost,
+} from '../controllers/posts.js'
 
-const router = Router();
+const router = Router()
 
 // Create Post Route
-router.post("/", createPost);
+router.post('/', createPost)
 
 // Get All Posts Route (includes popular posts)
 router.get('/', getAll)
@@ -27,5 +36,4 @@ router.get('/comments/:id', getPostComments)
 // Toggle Like on a Post Route
 router.put('/like/:id', likePost)
 
-export default router;
-
+export default router

@@ -8,28 +8,27 @@ import Post from '../models/Post.js'
  * @param {Object} res - Express response object
  */
 export const createComment = async (req, res) => {
-    try {
-        const { postId, comment } = req.body
+	try {
+		const { postId, comment } = req.body
 
-        // Validation: Comment cannot be empty
-        if (!comment)
-            return res.json({ message: 'Comment cannot be empty' })
+		// Validation: Comment cannot be empty
+		if (!comment) return res.json({ message: 'Comment cannot be empty' })
 
-        // Create and save new comment
-        const newComment = new Comment({ comment })
-        await newComment.save()
+		// Create and save new comment
+		const newComment = new Comment({ comment })
+		await newComment.save()
 
-        try {
-            // Push comment ID to post's comments array
-            await Post.findByIdAndUpdate(postId, {
-                $push: { comments: newComment._id },
-            })
-        } catch (error) {
-            console.log(error)
-        }
+		try {
+			// Push comment ID to post's comments array
+			await Post.findByIdAndUpdate(postId, {
+				$push: { comments: newComment._id },
+			})
+		} catch (error) {
+			console.log(error)
+		}
 
-        res.json(newComment)
-    } catch (error) {
-        res.json({ message: 'Something is wrong' })
-    }
+		res.json(newComment)
+	} catch (error) {
+		res.json({ message: 'Something is wrong' })
+	}
 }
